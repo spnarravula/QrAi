@@ -2,10 +2,14 @@
 
 import Image from 'next/image';
 import NavLink from './NavLink';
+import { useSession,signIn } from "next-auth/react";
 
 let heroImages = ['/1.png', '/6.png', '/3.png', '/4.png', '/5.png', '/2.png'];
 
 export default function Hero() {
+
+  const { data: session, status } = useSession()
+
   return (
     <section>
       <div className="custom-screen pt-28 text-gray-600">
@@ -17,15 +21,18 @@ export default function Hero() {
             QR AI makes it simple for you to generate cool looking AI QR codes
             in seconds, completely for free.
           </p>
+          
           <div className="flex items-center justify-center gap-x-3 font-medium text-sm">
+            { status ==="authenticated" ? (
             <NavLink
               href="/start"
               className="text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 "
             >
               Generate your QR Code
-            </NavLink>
-            
+            </NavLink>) : (<p><button onClick={() => signIn()}>Sign in</button></p>)
+            }
           </div>
+       
           <div className="grid sm:grid-cols-3 grid-cols-2 gap-4 pt-10">
             {heroImages.map((image, idx) => (
               <Image

@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import PlausibleProvider from 'next-plausible';
+import { NextAuthProvider } from '../components/auth/next-auth-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,10 +50,12 @@ export default function RootLayout({
         <PlausibleProvider domain="qrgen.io" />
       </head>
       <body className={inter.className}>
+      <NextAuthProvider>
         <Navbar />
         <main>{children}</main>
         <Analytics />
         <Footer />
+        </NextAuthProvider>
       </body>
     </html>
   );

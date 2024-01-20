@@ -26,7 +26,7 @@ import va from '@vercel/analytics';
 import { PromptSuggestion } from '@/components/PromptSuggestion';
 import { useRouter } from 'next/navigation';
 import { toast, Toaster } from 'react-hot-toast';
-
+import { useSession } from "next-auth/react";
 const promptSuggestions = [
   'A city view with clouds',
   'A beautiful glacier',
@@ -92,7 +92,7 @@ const Body = ({
     },
     [form],
   );
-
+  const { data: session, status } = useSession();
   const handleSubmit = useCallback(
     async (values: GenerateFormValues) => {
       setIsLoading(true);
@@ -116,6 +116,14 @@ const Body = ({
             `Failed to generate QR code: ${response.status}, ${text}`,
           );
         }
+
+        const tokenRequest = {
+          email: session.user.email,
+        };
+        const tokenResponse = await fetch('/api/token', {
+          method: 'PATCH',
+          body: JSON.stringify(tokenRequest),
+        });
 
         const data = await response.json();
 
@@ -196,6 +204,7 @@ const Body = ({
                     ))}
                   </div>
                 </div>
+                { status ==="authenticated" ? (
                 <Button
                   type="submit"
                   disabled={isLoading}
@@ -209,7 +218,8 @@ const Body = ({
                   ) : (
                     'Generate'
                   )}
-                </Button>
+                </Button>) : (<p></p>)
+                }
 
                 {error && (
                   <Alert variant="destructive">

@@ -5,10 +5,14 @@ import { useEffect, useState } from 'react';
 import NavLink from './NavLink';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
+import Login from '../components/auth/login-btn'
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const [state, setState] = useState(false);
-
+  
+  const { data: session, status } = useSession()
+  
   const navigation = [
     // { title: 'Testimonials', path: '#testimonials' },
     { title: 'Homepage', path: '/' },
@@ -17,6 +21,8 @@ const Navbar = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const emailId= session?.user?.email;
+ console.log(emailId);
   useEffect(() => {
     // Add closing the navbar menu when navigating
     const handleState = () => {
@@ -100,13 +106,19 @@ const Navbar = () => {
                 );
               })}
               <li>
+              { status ==="authenticated" ? (
                 <NavLink
                   href="/start"
                   className="block font-medium text-sm text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
                 >
                   Generate your QR Code
-                </NavLink>
+                </NavLink>) : (<p></p>)
+              }
               </li>
+              <li>
+              <Login/>
+   </li>
+   
             </ul>
           </div>
         </div>
