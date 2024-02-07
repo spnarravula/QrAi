@@ -27,6 +27,7 @@ import { PromptSuggestion } from '@/components/PromptSuggestion';
 import { useRouter } from 'next/navigation';
 import { toast, Toaster } from 'react-hot-toast';
 import { useSession } from "next-auth/react";
+import useTokens from '../app/store/useTokens';
 const promptSuggestions = [
   'A city view with clouds',
   'A beautiful glacier',
@@ -58,7 +59,7 @@ const Body = ({
   const [error, setError] = useState<Error | null>(null);
   const [response, setResponse] = useState<QrGenerateResponse | null>(null);
   const [submittedURL, setSubmittedURL] = useState<string | null>(null);
-
+  const { decreaseTokens } = useTokens();
   const router = useRouter();
 
   const form = useForm<GenerateFormValues>({
@@ -116,7 +117,7 @@ const Body = ({
             `Failed to generate QR code: ${response.status}, ${text}`,
           );
         }
-
+        
         const tokenRequest = {
           email: session.user.email,
         };
@@ -124,6 +125,8 @@ const Body = ({
           method: 'PATCH',
           body: JSON.stringify(tokenRequest),
         });
+        
+        decreaseTokens();
 
         const data = await response.json();
 

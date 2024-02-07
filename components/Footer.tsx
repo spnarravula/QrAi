@@ -7,10 +7,10 @@ const Footer = () => (
         <p className="text-gray-600">
           Created by{' '}
           <a
-            href="https://twitter.com/ravikc"
+            href="https://twitter.com/spnarravula"
             className="hover:underline transition"
           >
-            Ravi K C
+            Pavithra N
           </a>
         </p>
         <div className="flex items-center gap-x-6 text-gray-400">

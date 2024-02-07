@@ -7,11 +7,14 @@ import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Login from '../components/auth/login-btn'
 import { useSession } from "next-auth/react";
+import useTokens from '@/app/store/useTokens';
 
 const Navbar = () => {
   const [state, setState] = useState(false);
   
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
+
+  const { initialData } = useTokens();
   
   const navigation = [
     // { title: 'Testimonials', path: '#testimonials' },
@@ -48,7 +51,7 @@ const Navbar = () => {
         <div className="custom-screen items-center mx-auto md:flex">
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <Link href="/" className="flex items-center gap-3">
-              <Image src="/box.svg" alt="logo" width={30} height={30} />
+              <Image src="/logo.jpg" alt="logo" width={30} height={30} />
               <div className="font-bold text-lg">Qr AI</div>
             </Link>
             <div className="md:hidden">
@@ -106,7 +109,7 @@ const Navbar = () => {
                 );
               })}
               <li>
-              { status ==="authenticated" ? (
+              { status ==="authenticated" && initialData > 0 ? (
                 <NavLink
                   href="/start"
                   className="block font-medium text-sm text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"

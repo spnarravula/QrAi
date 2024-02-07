@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import useTokens from '../app/store/useTokens';
  // Update the path
 
 interface TokenProps {
@@ -9,7 +10,7 @@ interface TokenProps {
 
 const Tokens: React.FC<TokenProps> = ({ initialCount,email }) => {
   const [tokenCount, setTokenCount] = useState(initialCount);
-
+  const { initialData, setInitialData } = useTokens();
 
   
   useEffect(() => {
@@ -28,6 +29,7 @@ const Tokens: React.FC<TokenProps> = ({ initialCount,email }) => {
         
         if (response) {
           setTokenCount(tokentokens);
+          setInitialData(tokentokens);
         }
       };
   
@@ -36,7 +38,7 @@ const Tokens: React.FC<TokenProps> = ({ initialCount,email }) => {
 
   return (
     <div>
-      <h1>Number of Tokens Available: {tokenCount}</h1>
+      <h1>Number of Credits Available: {initialData}</h1>
     </div>
   );
 };
