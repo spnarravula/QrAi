@@ -39,8 +39,8 @@ const handler = NextAuth({
           if(!existing){
             const user = new entities.User();
 
-          user.name =profile?.name;
-          user.email= profile?.email;
+          user.name =profile.name ?? "";
+          user.email= profile.email ?? "";
           user.tokens=3;
           user.activated= true;
           const result = await userRepository.save(

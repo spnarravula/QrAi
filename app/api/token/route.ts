@@ -1,17 +1,14 @@
 // pages/api/myApiRoute.ts
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../database/db";
 import { connection, entities } from "@database";
 export  async function GET(req: NextRequest) {
-  const session_email =req.headers.get('email');
+  const session_email =req.headers.get('email') ?? "";
        //console.log(session);
 
        const client = await connection.getInstance();
        const userRepository = client.getRepository(entities.User);
       
-       const existing= await userRepository.findOne({ where : { email: session_email}}); 
-   
-  
+    const existing = await  userRepository.findOne({ where : { email:  session_email}}); 
           //console.log(existing);
   if (existing) {
     // User is authenticated
@@ -58,9 +55,9 @@ export async function PATCH(req: NextRequest) {
     const patch= existing;
 
     const tokens = existing?.tokens;
-
+    if(patch && tokens){
     patch.tokens= tokens -1;
-
+    }
     if (!existing) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }

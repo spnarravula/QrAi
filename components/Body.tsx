@@ -119,7 +119,7 @@ const Body = ({
         }
         
         const tokenRequest = {
-          email: session.user.email,
+          email: session?.user?.email,
         };
         const tokenResponse = await fetch('/api/token', {
           method: 'PATCH',
