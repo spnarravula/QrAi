@@ -27,24 +27,35 @@ const handler = NextAuth({
   
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      if (profile) {
+      
+      if (profile || user) {
         try {
 
           const client = await connection.getInstance();
           const userRepository = client.getRepository(entities.User);
           
 
-          const existing = await  userRepository.findOne({ where : { email: profile?.email}}); 
+          var emailCheck= "";
+          if(profile){
+            emailCheck =profile.email ?? "" ;
+          }else {
+            emailCheck =user.email ?? "" ;
+          }
+          const existing = await  userRepository.findOne({ where : { email: emailCheck}}); 
           console.log('Existing user' + existing);
           if(!existing){
-            const user = new entities.User();
-
-          user.name =profile.name ?? "";
-          user.email= profile.email ?? "";
-          user.tokens=3;
-          user.activated= true;
+            const userModel = new entities.User();
+            if(profile){
+             userModel.name =profile.name ?? "";
+            userModel.email= profile.email ?? "";
+            } else {
+              userModel.name =user.name ?? "";
+            userModel.email= user.email ?? "";
+            }
+          userModel.tokens=3;
+          userModel.activated= true;
           const result = await userRepository.save(
-           user
+           userModel
           );
          }
         } catch (error) {

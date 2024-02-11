@@ -11,9 +11,9 @@ const inter = Inter({ subsets: ['latin'] });
 
 let title = 'Qr AI - QR Code Generator';
 let description = 'Generate your AI QR Code in seconds';
-let url = 'https://www.qrgen.io';
-let ogimage = 'https://www.qrgen.io/og-image.png';
-let sitename = 'qrgen.io';
+let url = 'https://www.aigenqr.com';
+let ogimage = 'https://www.aigenqr.com/og-image.png';
+let sitename = 'aigenqr.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <PlausibleProvider domain="qrgen.io" />
+        <PlausibleProvider domain="aigenqr.com" />
       </head>
       <body className={inter.className}>
       <NextAuthProvider>

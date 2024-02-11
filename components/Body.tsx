@@ -265,7 +265,7 @@ const Body = ({
                       variant="outline"
                       onClick={() => {
                         navigator.clipboard.writeText(
-                          `https://qrgpt.io/start/${id || ''}`,
+                          `https://aigenqr.com/start/${id || ''}`,
                         );
                         toast.success('Link copied to clipboard');
                       }}
